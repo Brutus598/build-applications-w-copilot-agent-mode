@@ -20,8 +20,10 @@ app uses a single origin — no CORS configuration needed.
 ## Architecture notes
 
 - The Vite dev server proxies `/api` to `http://backend:8000` (Docker internal network).
-- The seed service runs once on startup (after the backend is healthy) to populate MongoDB
-  with sample users, teams, activities, leaderboard entries, and workouts.
+- The `seed` service is an on-demand Compose tool (profile `tools`) that populates MongoDB
+  with sample users, teams, activities, leaderboard entries, and workouts. Run it with
+  `docker compose -f docker-compose.base44.yml run --rm seed`; it is deliberately excluded
+  from the long-running preview stack after it completes.
 - Both frontend and backend use bind-mounted source with live-reload dev commands, so edits
   appear without rebuilding images.
 - `__VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS` is passed through to the frontend container so
